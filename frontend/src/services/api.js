@@ -13,20 +13,39 @@ const apiCall = async (endpoint, options = {}) => {
         headers['Authorization'] = `Token ${token}`
     }
 
-    const response = await fetch(`${API_URL}${endpoint}`, {
-        ...options,
-        headers,
-    })
+    let response;
+    try {
+        response = await fetch(`${API_URL}${endpoint}`, {
+            ...options,
+            headers,
+        })
+    } catch (error) {
+        // Network error - server might be down or CORS issue
+        throw new Error('Failed to connect to server. Make sure Django is running on port 8000.')
+    }
 
     if (response.status === 401) {
         localStorage.removeItem('token')
         window.location.href = '/login'
     }
 
-    const data = await response.json()
+    // Try to parse JSON, but handle cases where response might be empty
+    let data;
+    const contentType = response.headers.get('content-type');
+    if (contentType && contentType.includes('application/json')) {
+        try {
+            data = await response.json();
+        } catch (e) {
+            data = {};
+        }
+    } else {
+        data = {};
+    }
 
     if (!response.ok) {
-        throw new Error(data.detail || 'Something went wrong')
+        // Handle different error formats
+        const errorMessage = data.detail || data.error || data.non_field_errors?.[0] || Object.values(data)[0]?.[0] || 'Something went wrong';
+        throw new Error(errorMessage);
     }
 
     return data
@@ -71,9 +90,17 @@ export const todoAPI = {
     },
   
     create: async (title, description) => {
+      const payload = { 
+        title, 
+        completed: false 
+      };
+      // Only include description if it's not empty
+      if (description && description.trim()) {
+        payload.description = description.trim();
+      }
       return apiCall('/todos/', {
         method: 'POST',
-        body: JSON.stringify({ title, description, completed: false }),
+        body: JSON.stringify(payload),
       });
     },
   

@@ -21,5 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/auth/', include('dj_rest_auth.urls')),
     path('api/auth/registration/', include('dj_rest_auth.registration.urls')),
-    path('api/todos/', include('a_todo.urls')),
+    path('api/', include('a_todo.urls')),  # This will create /api/todos/ endpoints
 ]

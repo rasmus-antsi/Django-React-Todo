@@ -158,14 +158,39 @@ REST_AUTH = {
     'TOKEN_MODEL': 'rest_framework.authtoken.models.Token',
 }
 
-ACCOUNT_AUTHENTICATION_METHOD = 'username'
+# Allauth account settings
+# Note: AUTHENTICATION_METHOD is deprecated in newer versions, but still works
 ACCOUNT_EMAIL_REQUIRED = False
 ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'none'
+# Use username for authentication (default behavior)
+ACCOUNT_AUTHENTICATION_METHOD = 'username'  # Will show deprecation warning but still functional
 
-CORS_ALLOW_ORIGINS = [
+CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
     'http://127.0.0.1:5173',
 ]
 
 CORS_ALLOW_CREDENTIALS = True
+
+# Allow all headers and methods for development
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
+
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]

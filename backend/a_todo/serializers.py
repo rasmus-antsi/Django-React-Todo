@@ -6,3 +6,9 @@ class TodoSerializer(serializers.ModelSerializer):
         model = Todo
         fields = ['id', 'title', 'description', 'completed', 'created_at', 'updated_at']
         read_only_fields = ['id', 'created_at', 'updated_at']
+    
+    def validate_description(self, value):
+        # Allow empty string or None
+        if value is None or value.strip() == '':
+            return None
+        return value
