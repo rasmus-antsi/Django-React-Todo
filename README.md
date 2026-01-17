@@ -56,6 +56,16 @@ This is a portfolio project created to learn and demonstrate:
 
 ## 🏗️ Architecture
 
+### Project Structure
+```
+Todo-App/
+├── backend/          # Django backend
+├── frontend/         # React frontend
+├── venv/            # Python virtual environment (create in root)
+├── requirements.txt  # Python dependencies
+└── README.md
+```
+
 ### Backend Structure
 ```
 backend/
@@ -94,33 +104,41 @@ frontend/
 
 ### Backend Setup
 
-1. **Navigate to backend directory**
+1. **Create virtual environment in the project root**
+   ```bash
+   python -m venv venv
+   ```
+
+2. **Activate virtual environment**
+   ```bash
+   # On macOS/Linux:
+   source venv/bin/activate
+   
+   # On Windows:
+   venv\Scripts\activate
+   ```
+
+3. **Install dependencies from requirements.txt**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Navigate to backend directory**
    ```bash
    cd backend
    ```
 
-2. **Create and activate virtual environment** (if not already created)
-   ```bash
-   python -m venv ../venv
-   source ../venv/bin/activate  # On Windows: ../venv\Scripts\activate
-   ```
-
-3. **Install dependencies**
-   ```bash
-   pip install django djangorestframework django-allauth dj-rest-auth django-cors-headers
-   ```
-
-4. **Run migrations**
+5. **Run migrations**
    ```bash
    python manage.py migrate
    ```
 
-5. **Create superuser** (optional, for Django admin)
+6. **Create superuser** (optional, for Django admin)
    ```bash
    python manage.py createsuperuser
    ```
 
-6. **Start development server**
+7. **Start development server**
    ```bash
    python manage.py runserver
    ```
